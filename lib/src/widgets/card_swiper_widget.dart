@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:peliculas/src/models/pelicula_model.dart';
 
 class CardSwiper extends StatelessWidget {
-  final List<dynamic> peliculas;
+  final List<Pelicula> peliculas;
 
   const CardSwiper({
     Key? key,
@@ -23,13 +24,14 @@ class CardSwiper extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              "https://loremflickr.com/320/240",
+            child: FadeInImage(
+              image: NetworkImage(peliculas[index].getPosterImg()),
+              placeholder: const AssetImage('assets/no-image.jpg'),
               fit: BoxFit.cover,
             ),
           );
         },
-        itemCount: 3,
+        itemCount: peliculas.length,
       ),
     );
   }
