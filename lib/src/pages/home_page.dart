@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/pelicula_model.dart';
 import '../providers/peliculas_provider.dart';
 import '../widgets/card_swiper_widget.dart';
+import '../widgets/movie_horizontal.dart';
 
 class HomePage extends StatelessWidget {
   final peliculasProvider = PeliculasProvider();
@@ -24,8 +25,10 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _swiperTarjetas(),
+            _footerScroll(context),
           ],
         ),
       ),
@@ -35,9 +38,9 @@ class HomePage extends StatelessWidget {
   Widget _swiperTarjetas() {
     return FutureBuilder(
       future: peliculasProvider.getEnCines(),
-      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>>? snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
         final screenSize = MediaQuery.of(context).size;
-        if (snapshot!.hasData) {
+        if (snapshot.hasData) {
           return CardSwiper(
             peliculas: snapshot.data!,
           );
@@ -52,7 +55,33 @@ class HomePage extends StatelessWidget {
       },
     );
   }
+
+  Widget _footerScroll(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            'Populares',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+        const SizedBox(height: 8),
+        FutureBuilder(
+            future: peliculasProvider.getPopulares(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+              if (snapshot.hasData) {
+                return MovieHorizontal(peliculas: snapshot.data!);
+              } else {
+                return const CircularProgressIndicator();
+              }
+            })
+      ],
+    );
+  }
 }
 
-// SIGUE EL VIDEO 102 
+// SIGUE EL VIDEO 104
 
