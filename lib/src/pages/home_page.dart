@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    peliculasProvider.getPopulares();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Películas en Cines'),
@@ -68,20 +69,33 @@ class HomePage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+        StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder:
                 (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
               if (snapshot.hasData) {
-                return MovieHorizontal(peliculas: snapshot.data!);
+                return MovieHorizontal(
+                  peliculas: snapshot.data!,
+                  siguientePagina: peliculasProvider.getPopulares,
+                );
               } else {
                 return const CircularProgressIndicator();
               }
-            })
+            }),
+        // FutureBuilder(
+        //     future: peliculasProvider.getPopulares(),
+        //     builder:
+        //         (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+        //       if (snapshot.hasData) {
+        //         return MovieHorizontal(peliculas: snapshot.data!);
+        //       } else {
+        //         return const CircularProgressIndicator();
+        //       }
+        //     }),
       ],
     );
   }
 }
 
-// SIGUE EL VIDEO 106
+// SIGUE EL VIDEO 109
 
