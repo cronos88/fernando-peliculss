@@ -44,7 +44,7 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
-    return Container(
+    final tarjeta = Container(
       margin: const EdgeInsets.only(right: 15),
       child: Column(
         children: [
@@ -60,6 +60,13 @@ class MovieHorizontal extends StatelessWidget {
           Text(pelicula.title!, maxLines: 2, overflow: TextOverflow.ellipsis),
         ],
       ),
+    );
+
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        Navigator.of(context).pushNamed('detalle', arguments: pelicula);
+      },
     );
   }
 }
