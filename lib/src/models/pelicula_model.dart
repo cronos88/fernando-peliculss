@@ -72,4 +72,12 @@ class Pelicula {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
     }
   }
+
+  getBackdropImg() {
+    if (backdropPath == null) {
+      return 'https://www.freeiconspng.com/img/23480';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+  }
 }
